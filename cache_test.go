@@ -86,11 +86,11 @@ func TestMarshallJson(t *testing.T) {
 	c.Set("facebook", "facebook.com")
 
 	buf := new(bytes.Buffer)
-	err := c.Asleep(buf)
+	err := c.Dump(buf)
 	require.NoError(t, err)
 
 	c0 := cache.New()
-	err = c0.Awake(buf)
+	err = c0.Recover(buf)
 	require.NoError(t, err)
 
 	require.True(t, reflect.DeepEqual(c, c0))

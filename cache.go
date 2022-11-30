@@ -23,12 +23,12 @@ type CacheJSON struct {
 
 const Threaded = true
 
-func (c *Cache) Asleep(w io.Writer) error {
+func (c *Cache) Dump(w io.Writer) error {
 	payload := &CacheJSON{Values: c.values}
 	return json.NewEncoder(w).Encode(payload)
 }
 
-func (c *Cache) Awake(r io.Reader) error {
+func (c *Cache) Recover(r io.Reader) error {
 	var payload CacheJSON
 	err := json.NewDecoder(r).Decode(&payload)
 	if err == nil {
