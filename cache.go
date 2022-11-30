@@ -3,7 +3,7 @@ package cache
 import "sync"
 
 // key of the memory cache
-type Key string
+type Key interface{}
 
 // value contained in memory
 type Value interface{}
