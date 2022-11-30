@@ -1,10 +1,13 @@
 package cache_test
 
 import (
+	"bytes"
+	"reflect"
 	"testing"
 	"time"
 
 	"github.com/jeromelesaux/cache"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDnsCache(t *testing.T) {
@@ -73,4 +76,22 @@ func Benchmark10(b *testing.B) {
 			}
 		}
 	}
+}
+
+func TestMarshallJson(t *testing.T) {
+	c := cache.New()
+	c.Set("apple", "apple.com")
+	c.Set("aws", "amazon.com")
+	c.Set("google", "google.com")
+	c.Set("facebook", "facebook.com")
+
+	buf := new(bytes.Buffer)
+	err := c.Asleep(buf)
+	require.NoError(t, err)
+
+	c0 := cache.New()
+	err = c0.Awake(buf)
+	require.NoError(t, err)
+
+	require.True(t, reflect.DeepEqual(c, c0))
 }
